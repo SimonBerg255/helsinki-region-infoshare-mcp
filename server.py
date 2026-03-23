@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from fastmcp import FastMCP
+from mcp.server.fastmcp import Icon
 from starlette.requests import Request
 from starlette.responses import PlainTextResponse, Response
 
@@ -72,11 +73,19 @@ WEBSITE_URL = "https://hri.fi"
 ####### SERVER CONFIGURATION #######
 
 
+# The logo is served at /logo.png via a custom route below.
+# Set the full URL after deployment (e.g. https://your-app.up.railway.app/logo.png).
+# For now, use a relative path — Intric will resolve it against the server URL.
+icon = Icon(
+    src="/logo.png",
+)
+
 mcp = FastMCP(
     name="Helsinki Region Infoshare",
     instructions=INSTRUCTION_STRING,
     version=VERSION,
     website_url=WEBSITE_URL,
+    icons=[icon],
 )
 
 
