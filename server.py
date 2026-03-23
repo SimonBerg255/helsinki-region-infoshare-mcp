@@ -1,9 +1,7 @@
-from pathlib import Path
-
 from fastmcp import FastMCP
 from mcp.server.fastmcp import Icon
 from starlette.requests import Request
-from starlette.responses import PlainTextResponse, Response
+from starlette.responses import PlainTextResponse
 
 from tools import (
     browse_statistics,
@@ -23,8 +21,6 @@ from tools import (
 
 ####### SERVER METADATA #######
 
-
-LOGO_PATH = Path(__file__).parent / "Region_info.png"
 
 INSTRUCTION_STRING = """Helsinki Region Infoshare (HRI) — Open Data Intelligence Layer for the Helsinki Metropolitan Area.
 Covers 550+ datasets from Helsinki, Espoo, Vantaa, and Kauniainen.
@@ -73,11 +69,8 @@ WEBSITE_URL = "https://hri.fi"
 ####### SERVER CONFIGURATION #######
 
 
-# The logo is served at /logo.png via a custom route below.
-# Set the full URL after deployment (e.g. https://your-app.up.railway.app/logo.png).
-# For now, use a relative path — Intric will resolve it against the server URL.
 icon = Icon(
-    src="/logo.png",
+    src="https://raw.githubusercontent.com/SimonBerg255/helsinki-region-infoshare-mcp/main/Region_info.png",
 )
 
 mcp = FastMCP(
@@ -121,14 +114,6 @@ mcp.tool(meta={"requires_permission": False})(search_datasets)
 @mcp.custom_route("/health", methods=["GET"])
 async def health_check(request: Request) -> PlainTextResponse:
     return PlainTextResponse("OK")
-
-
-@mcp.custom_route("/logo.png", methods=["GET"])
-async def serve_logo(request: Request) -> Response:
-    if LOGO_PATH.exists():
-        content = LOGO_PATH.read_bytes()
-        return Response(content=content, media_type="image/png")
-    return PlainTextResponse("Logo not found", status_code=404)
 
 
 ####### ASGI APP #######
