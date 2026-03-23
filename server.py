@@ -28,37 +28,41 @@ LOGO_PATH = Path(__file__).parent / "Region_info.png"
 INSTRUCTION_STRING = """Helsinki Region Infoshare (HRI) — Open Data Intelligence Layer for the Helsinki Metropolitan Area.
 Covers 550+ datasets from Helsinki, Espoo, Vantaa, and Kauniainen.
 
-ROUTING GUIDE — pick the right tool:
+ROUTING GUIDE — pick the right tool for the question:
 
-1. CITY SERVICES & FACILITIES (libraries, schools, health centres, daycare, parks, pools, etc.)
-   → search_services — find facilities by type and municipality
-   → count_services — "how many X in each city?"
-   → get_service_details — opening hours, accessibility, description for one unit
-   → list_service_categories — discover service types
+1. WHERE IS / FIND ME (libraries, schools, health centres, swimming pools, playgrounds, parks, etc.)
+   → search_services with a service type name and optional municipality
+   → get_service_details for opening hours, description, accessibility of one unit
+   → list_service_categories to discover what service types exist
+   Common service types: library, health centre, swimming pool, school, daycare, playground, park, youth centre, recycling, beach
 
-2. EVENTS (concerts, exhibitions, festivals, sports, what's on)
-   → search_events — by keyword, date range, free/paid
+2. HOW MANY (comparing counts across municipalities)
+   → count_services with a service type name
 
-3. STATISTICS — QUICK ANSWERS (pre-built, fast)
+3. WHAT'S HAPPENING / EVENTS (concerts, exhibitions, festivals, free things to do)
+   → search_events with keyword and/or date range; set is_free=True for free events
+
+4. POPULATION / UNEMPLOYMENT / EMISSIONS (quick pre-built answers)
    → get_population_statistics — population by municipality and year (1974-2024)
-   → get_unemployment_data — monthly unemployment rates, jobseekers
+   → get_unemployment_data — monthly unemployment rates and jobseeker counts
    → get_emissions_data — Helsinki greenhouse gas emissions by sector (1990-2024)
 
-4. STATISTICS — DEEP EXPLORATION (297 tables: population, housing, construction, income, labour, education, environment, wellbeing, Nordic comparisons)
-   → browse_statistics — navigate the PxWeb database tree
-   → get_table_info — see what variables/filters a table has
-   → query_statistics — fetch data with filters from any table
+5. ANY OTHER STATISTICS (housing, income, labour, education, environment, wellbeing, Nordic comparisons — 297 tables)
+   → Step 1: browse_statistics to navigate the database tree
+   → Step 2: get_table_info to see what variables/filters a table has
+   → Step 3: query_statistics to fetch data with specific filters
+   Key databases: Aluesarjat (regional), Hyvinvointitilastot (wellbeing), Ymparistotilasto (environment), Nordstat (Nordic city comparisons)
 
-5. DATASET DISCOVERY (what open data exists?)
-   → search_datasets — search the full HRI catalogue (550+ datasets in PXWEB, CSV, XLSX, JSON, GIS formats)
+6. WHAT DATA EXISTS / DISCOVERY
+   → search_datasets to search the full HRI catalogue (550+ datasets)
 
-GEOGRAPHY: Helsinki metro area only (Helsinki, Espoo, Vantaa, Kauniainen).
-LANGUAGE: Default to Finnish (fi) for statistics. English available for services, events, and Nordstat.
+GEOGRAPHY: Helsinki metro area only (Helsinki, Espoo, Vantaa, Kauniainen). Questions about other cities will return no results.
+LANGUAGE: Use English for services and events. Use Finnish (fi) for statistics — most PxWeb data is Finnish-only. Nordstat has English.
 
-WORKFLOW FOR STATISTICS QUESTIONS:
-1. If it's about population, unemployment, or emissions → use the pre-built tool directly
-2. For anything else → browse_statistics to find the right table → get_table_info to see variables → query_statistics to fetch data
-3. If unsure what exists → search_datasets to search the catalogue
+KNOWN LIMITATIONS:
+- Service categorization differs between municipalities. Daycare (service 869) is mainly Helsinki; Espoo/Vantaa may use different IDs. Use list_service_categories or search_datasets if results seem incomplete.
+- Neighborhood-level proximity search is not supported. For "nearest to X" questions, search the municipality and present results with addresses.
+- Statistics variable codes are in Finnish. Always use get_table_info before query_statistics to get the correct codes.
 """
 
 VERSION = "2.0.0"

@@ -37,12 +37,22 @@ def _strip_html(text: str) -> str:
 # =====================================================================
 
 COMMON_SERVICES = {
-    "library": 813, "health centre": 703, "health center": 703,
-    "health station": 703, "daycare": 869, "kindergarten": 869,
-    "school": 250, "comprehensive school": 250, "swimming pool": 617,
-    "swimming hall": 617, "playground": 648, "sports field": 632,
-    "park": 55, "recycling": 359, "youth centre": 538,
-    "youth center": 538, "maternity clinic": 204,
+    "library": 813,
+    "health centre": 703, "health center": 703, "health station": 703,
+    "swimming pool": 729, "swimming hall": 729, "indoor pool": 729,
+    "outdoor pool": 426, "open-air pool": 426, "beach": 731,
+    "playground": 648, "sports field": 632, "park": 55,
+    "recycling": 359, "youth centre": 538, "youth center": 538,
+    "maternity clinic": 463, "child health clinic": 379,
+    # Schools: use Finnish basic education grades 1-6 + 7-9 as the broadest match
+    "school": 661, "primary school": 661, "elementary school": 661,
+    "upper school": 662, "secondary school": 662,
+    "comprehensive school": 661,
+    # Daycare / early childhood — service_node approach may be better; 869 only covers Helsinki
+    "daycare": 869, "kindergarten": 869,
+    "pre-primary education": 159,
+    # Upper secondary
+    "high school": 658, "upper secondary": 658, "lukio": 658,
 }
 
 
@@ -420,7 +430,7 @@ async def browse_statistics(
     return {
         "path": path,
         "items": [
-            {"id": i["id"], "text": i["text"], "type": "folder" if i["type"] == "l" else "table"}
+            {"id": i["id"], "text": i["text"].strip(), "type": "folder" if i["type"] == "l" else "table"}
             for i in items[:30]
         ],
         "hint": "For folders, append the id to the path. For tables, use get_table_info to see variables, then query_statistics to fetch data.",
